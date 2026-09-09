@@ -7,7 +7,7 @@
 # ☐ 200 g + 1 oz แปลงผลลัพธ์เป็นกรัมโดยใช้อัตราแปลงหน่วย
 # ☐ (200 g + 1 oz) × 2
 
-from kitchen import Quantity
+from kitchen import Quantity, Converter
 
 def grams(amount):
     return Quantity(amount, "g")
