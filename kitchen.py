@@ -39,6 +39,8 @@ class Sum:
         right_reduced = self.right.reduce(unit)
         return Quantity(left_reduced.amount + right_reduced.amount, unit)
 
+    def times(self, multiplier):
+        return Sum(self.left.times(multiplier), self.right.times(multiplier))
 
 class Converter:
     def reduce(self, quantity, unit):
