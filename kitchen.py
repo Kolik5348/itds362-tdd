@@ -10,6 +10,9 @@ class Quantity:
     def plus(self, other):
         return Sum(self, other)
 
+    def reduce(self, unit):
+        return self  # หน่วยเดียวกัน (g+g) จึงไม่ต้องแปลงอะไร คืนตัวเองไปเลย
+
     def __eq__(self, other):
         return self.amount == other.amount and self.unit == other.unit
 
@@ -21,6 +24,11 @@ class Sum:
     def __init__(self, left, right):
         self.left = left
         self.right = right
+
+    def reduce(self, unit):
+        left_reduced = self.left.reduce(unit)
+        right_reduced = self.right.reduce(unit)
+        return Quantity(left_reduced.amount + right_reduced.amount, unit)
 
 
 class Converter:
