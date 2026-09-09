@@ -3,10 +3,11 @@
 # ☑ การคูณต้องไม่เปลี่ยนค่าของอ็อบเจ็กต์เดิม
 # ☑ ปริมาณสองค่าที่มีทั้งตัวเลขและหน่วยเท่ากันถือว่าเท่ากัน
 # ☑ 1 oz ไม่เท่ากับ 1 g
-# ☐ 200 g + 300 g = 500 g
+# ☑ 200 g + 300 g = 500 g
 # ☐ 200 g + 1 oz แปลงผลลัพธ์เป็นกรัมโดยใช้อัตราแปลงหน่วย
 # ☐ (200 g + 1 oz) × 2
 
+import pytest
 from kitchen import Quantity, Converter
 
 def grams(amount):
@@ -39,3 +40,10 @@ def test_simple_addition():
     total = grams(200).plus(grams(300))
     converter = Converter()
     assert converter.reduce(total, "g") == grams(500)
+
+def test_addition_with_different_units():
+    total = grams(200).plus(ounces(1))
+    converter = Converter()
+    result = converter.reduce(total, "g")
+    assert result.amount == pytest.approx(228.35)
+    assert result.unit == "g"
