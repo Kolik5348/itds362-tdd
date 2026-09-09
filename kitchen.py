@@ -1,4 +1,10 @@
 # kitchen.py
+CONVERSION_RATES = {
+    ("oz", "g"): 28.35,
+    ("g", "oz"): 1 / 28.35,
+}
+
+
 class Quantity:
     def __init__(self, amount, unit):
         self.amount = amount
@@ -11,7 +17,10 @@ class Quantity:
         return Sum(self, other)
 
     def reduce(self, unit):
-        return self  # หน่วยเดียวกัน (g+g) จึงไม่ต้องแปลงอะไร คืนตัวเองไปเลย
+        if self.unit == unit:
+            return self
+        rate = CONVERSION_RATES[(self.unit, unit)]
+        return Quantity(self.amount * rate, unit)
 
     def __eq__(self, other):
         return self.amount == other.amount and self.unit == other.unit
